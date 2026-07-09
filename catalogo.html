@@ -277,19 +277,27 @@
         <p>Interested in a custom quote? <a href="mailto:">Get in touch with us</a> — we'd love to bring your event to life! 🎉</p>
     </footer>
 
-    <!-- Reads data from the same localStorage used by the admin panel -->
+    <!-- catalog-data.js has the data when hosted on GitHub Pages -->
+    <script src="catalog-data.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Read from the same localStorage keys the admin panel uses
-            const profileName = localStorage.getItem("lk_profileName");
-            const profileHeadline = localStorage.getItem("lk_profileHeadline");
+            // GitHub Pages: use catalog-data.js | Localhost: use localStorage
+            const profileName     = (typeof PROFILE_DATA !== "undefined" && PROFILE_DATA.name)     ? PROFILE_DATA.name     : localStorage.getItem("lk_profileName");
+            const profileHeadline = (typeof PROFILE_DATA !== "undefined" && PROFILE_DATA.headline) ? PROFILE_DATA.headline : localStorage.getItem("lk_profileHeadline");
 
-            if (profileName) document.getElementById("pub-name").textContent = profileName;
+            if (profileName)     document.getElementById("pub-name").textContent     = profileName;
             if (profileHeadline) document.getElementById("pub-headline").textContent = profileHeadline;
 
-            const savedCatalog = localStorage.getItem("lk_catalogItems");
-            const items = savedCatalog ? JSON.parse(savedCatalog) : [];
-            const grid = document.getElementById("catalog-grid");
+            let items = [];
+            if (typeof CATALOG_DATA !== "undefined" && CATALOG_DATA.length > 0) {
+                items = CATALOG_DATA; // GitHub Pages: from published catalog-data.js
+            } else {
+                const saved = localStorage.getItem("lk_catalogItems");
+                items = saved ? JSON.parse(saved) : []; // Localhost: from localStorage
+            }
+
+            const grid            = document.getElementById("catalog-grid");
+
             const filterContainer = document.getElementById("filter-container");
 
             // Build category filter buttons
