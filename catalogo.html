@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <meta name="description" content="Browse our full catalog of custom event décor, giant prints, photocalls, and balloon art.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 60px 20px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        header > * { position: relative; z-index: 1; }
+        header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin: 0 0 12px 0;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        header p {
+            font-size: 1.15rem;
+            margin: 0 0 20px;
+            opacity: 0.85;
+            max-width: 500px;
+            margin-inline: auto;
+        }
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1200px;
+            margin: 48px auto;
+            padding: 0 20px;
+        }
+
+        /* ── FILTERS ── */
+        .filters-wrapper {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .filters-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* ── GRID ── */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        /* ── CARD ── */
+        .catalog-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid var(--border);
+        }
+        .catalog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.15);
+        }
+        .catalog-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+        }
+        .card-content {
+            padding: 20px 22px 22px;
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .card-category {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--primary);
+            background: rgba(79,70,229,0.08);
+            padding: 3px 10px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .card-dimensions {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .card-dimensions::before {
+            content: '📐';
+            font-size: 0.75rem;
+        }
+        .card-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        .card-cta {
+            margin-top: 16px;
+            display: inline-block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            border: 1.5px solid var(--primary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .card-cta:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            grid-column: 1 / -1;
+        }
+        .empty-state .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .empty-state h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin: 0 0 8px;
+        }
+        .empty-state p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .catalog-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="header-badge">✨ Official Portfolio</span>
+        <h1 id="pub-name">Our Catalog</h1>
+        <p id="pub-headline">Our Products &amp; Work</p>
+    </header>
+
+    <div class="container">
+        <div class="filters-wrapper">
+            <p class="filters-label">Browse by Category</p>
+            <div class="filters" id="filter-container">
+                <button class="filter-btn active" data-cat="all">All</button>
+                <!-- Dynamic filters -->
+            </div>
+        </div>
+
+        <div class="catalog-grid" id="catalog-grid">
+            <!-- Dynamic items -->
+        </div>
+    </div>
+
+    <footer>
+        <p>Interested in a custom quote? <a href="mailto:">Get in touch with us</a> — we'd love to bring your event to life! 🎉</p>
+    </footer>
+
+    <!-- Reads data from the same localStorage used by the admin panel -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Read from the same localStorage keys the admin panel uses
+            const profileName = localStorage.getItem("lk_profileName");
+            const profileHeadline = localStorage.getItem("lk_profileHeadline");
+
+            if (profileName) document.getElementById("pub-name").textContent = profileName;
+            if (profileHeadline) document.getElementById("pub-headline").textContent = profileHeadline;
+
+            const savedCatalog = localStorage.getItem("lk_catalogItems");
+            const items = savedCatalog ? JSON.parse(savedCatalog) : [];
+            const grid = document.getElementById("catalog-grid");
+            const filterContainer = document.getElementById("filter-container");
+
+            // Build category filter buttons
+            const categories = [...new Set(items.map(i => i.category))];
+            categories.forEach(cat => {
+                const btn = document.createElement("button");
+                btn.className = "filter-btn";
+                btn.setAttribute("data-cat", cat);
+                btn.textContent = cat;
+                filterContainer.appendChild(btn);
+            });
+
+            const render = (filterVal) => {
+                grid.innerHTML = "";
+                const filtered = items.filter(i => filterVal === "all" || i.category === filterVal);
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📦</div>
+                            <h3>No products available yet</h3>
+                            <p>Check back soon — we're adding new items to our catalog!</p>
+                        </div>`;
+                    return;
+                }
+
+                filtered.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = "catalog-card";
+                    const imgUrl = item.imageUrl || "https://via.placeholder.com/400x300?text=No+Image";
+                    card.innerHTML = `
+                        <img src="${imgUrl}" alt="${item.title}" loading="lazy">
+                        <div class="card-content">
+                            <div class="card-top">
+                                <span class="card-category">${item.category}</span>
+                            </div>
+                            <h3 class="card-title">${item.title}</h3>
+                            <div class="card-dimensions"><strong>Size:</strong>&nbsp;${item.dimensions || 'Custom'}</div>
+                            <p class="card-desc">${item.desc}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            };
+
+            // Bind filter buttons
+            filterContainer.addEventListener("click", (e) => {
+                const btn = e.target.closest(".filter-btn");
+                if (!btn) return;
+                filterContainer.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                render(btn.getAttribute("data-cat"));
+            });
+
+            render("all");
+        });
+    </script>
+</body>
+</html>
