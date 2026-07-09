@@ -1,1 +1,1 @@
-# mi-catalogo
+# Magic Prints - Product Catalog
